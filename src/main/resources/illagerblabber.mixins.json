@@ -1,0 +1,18 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.leclowndu93150.illagerblabber.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "illagerblabber.refmap.json",
+  "mixins": [
+    "EvokerMixin",
+    "PillagerMixin",
+    "RaiderMixin",
+    "VindicatorMixin"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
