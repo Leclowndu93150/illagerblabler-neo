@@ -29,12 +29,6 @@ public abstract class VindicatorMixin extends AbstractIllager {
         super(entityType, world);
     }
 
-    @Inject(method = "customServerAiStep", at = @At("TAIL"))
-    private void onMobTick(CallbackInfo ci) {
-        Vindicator vindicator = (Vindicator) (Object)this;
-        IllagerVoiceRegistry.updateIllager(vindicator, IllagerType.VINDICATOR);
-    }
-
     @Inject(method = "getHurtSound", at = @At("HEAD"), cancellable = true)
     private void onHurt(DamageSource source, CallbackInfoReturnable<SoundEvent> cir) {
         Vindicator vindicator = (Vindicator)(Object)this;
