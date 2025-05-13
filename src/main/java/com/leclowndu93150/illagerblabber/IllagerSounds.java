@@ -3,8 +3,9 @@ package com.leclowndu93150.illagerblabber;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
-import net.neoforged.neoforge.registries.DeferredRegister;
-import net.neoforged.bus.api.IEventBus;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.registries.DeferredRegister;
+
 import java.util.function.Supplier;
 
 public class IllagerSounds {
@@ -364,7 +365,7 @@ public class IllagerSounds {
     public static final Supplier<SoundEvent> PILLAGER_VICTORY_19 = registerSound("pillager.victory.19");
 
     private static Supplier<SoundEvent> registerSound(String name) {
-        return SOUND_EVENTS.register(name, () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(MOD_ID, name)));
+        return SOUND_EVENTS.register(name, () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(MOD_ID, name)));
     }
 
     public static void registerAll(IEventBus modEventBus) {

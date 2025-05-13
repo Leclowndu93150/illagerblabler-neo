@@ -435,14 +435,21 @@ public class IllagerVoiceManager {
                 currentSoundType = null;
                 isShortHurtSound = false;
 
-                int baseCooldown = switch (currentState) {
-                    case IllagerState.Passive p -> 30 + random.nextInt(60);
-                    case IllagerState.Combat c -> 40 + random.nextInt(60);
-                    case IllagerState.Spotted s -> 100 + random.nextInt(40);
-                    case IllagerState.Hurt h -> 20 + random.nextInt(20);
-                    case IllagerState.Victory v -> 40 + random.nextInt(20);
-                    default -> 40;
-                };
+                int baseCooldown;
+
+                if (currentState instanceof IllagerState.Passive) {
+                    baseCooldown = 30 + random.nextInt(60);
+                } else if (currentState instanceof IllagerState.Combat) {
+                    baseCooldown = 40 + random.nextInt(60);
+                } else if (currentState instanceof IllagerState.Spotted) {
+                    baseCooldown = 100 + random.nextInt(40);
+                } else if (currentState instanceof IllagerState.Hurt) {
+                    baseCooldown = 20 + random.nextInt(20);
+                } else if (currentState instanceof IllagerState.Victory) {
+                    baseCooldown = 40 + random.nextInt(20);
+                } else {
+                    baseCooldown = 40;
+                }
 
                 soundCooldown = adjustCooldownBasedOnCrowding(illager, currentState, baseCooldown);
 
@@ -515,13 +522,19 @@ public class IllagerVoiceManager {
             return baseCooldown;
         }
 
-        double scaleFactor = switch (state) {
-            case IllagerState.Passive p -> 0.3;
-            case IllagerState.Combat c -> 0.2;
-            case IllagerState.Spotted s -> 0.15;
-            case IllagerState.Victory v -> 0.1;
-            default -> 0.25;
-        };
+        double scaleFactor;
+
+        if (state instanceof IllagerState.Passive) {
+            scaleFactor = 0.3;
+        } else if (state instanceof IllagerState.Combat) {
+            scaleFactor = 0.2;
+        } else if (state instanceof IllagerState.Spotted) {
+            scaleFactor = 0.15;
+        } else if (state instanceof IllagerState.Victory) {
+            scaleFactor = 0.1;
+        } else {
+            scaleFactor = 0.25;
+        }
 
         return (int) (baseCooldown * (1 + (count - 1) * scaleFactor));
     }
@@ -566,13 +579,19 @@ public class IllagerVoiceManager {
     }
 
     private void playAppropriateSound() {
-        SoundEvent sound = switch (currentState) {
-            case IllagerState.Combat c -> chooseCombatSound();
-            case IllagerState.Spotted s -> chooseSpottedSound();
-            case IllagerState.Hurt h -> chooseHurtSound();
-            case IllagerState.Victory v -> chooseVictorySound();
-            default -> choosePassiveSound();
-        };
+        SoundEvent sound;
+
+        if (currentState instanceof IllagerState.Combat) {
+            sound = chooseCombatSound();
+        } else if (currentState instanceof IllagerState.Spotted) {
+            sound = chooseSpottedSound();
+        } else if (currentState instanceof IllagerState.Hurt) {
+            sound = chooseHurtSound();
+        } else if (currentState instanceof IllagerState.Victory) {
+            sound = chooseVictorySound();
+        } else {
+            sound = choosePassiveSound();
+        }
 
         playSound(sound);
     }
@@ -634,10 +653,13 @@ public class IllagerVoiceManager {
     }
 
     private void playSound(SoundEvent sound) {
-        float randomPitch = switch (currentState) {
-            case IllagerState.Hurt h -> 0.9f + threadSafeRandom.nextFloat() * 0.25f;
-            default -> 0.9f + threadSafeRandom.nextFloat() * 0.1f;
-        };
+        float randomPitch;
+
+        if (currentState instanceof IllagerState.Hurt) {
+            randomPitch = 0.9f + threadSafeRandom.nextFloat() * 0.25f;
+        } else {
+            randomPitch = 0.9f + threadSafeRandom.nextFloat() * 0.1f;
+        }
 
         illager.level().playSound(
                 null,
